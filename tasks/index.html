@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks | LogHue</title>
+
+    <!-- CSS LINKS (reuse dashboard CSS) -->
+    <!--SCYBUD UI-->
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/layout.css" />
+    <link
+      rel="stylesheet"
+      href="https://ui.scybud.com/components/sidebar/sidebar.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://ui.scybud.com/components/buttons/nav-buttons.css"
+    />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/animations.css" />
+
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/component.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/tasks.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/tasks-calendar.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/dashboard.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/utilities.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/forms.css" />
+    <link rel="stylesheet" href="../css/components/tags.css" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/favicons/favicon-32x32.png"
+    />
+  </head>
+
+  <body>
+    
+    <main class="main">
+
+      <!-- MAIN CONTENT -->
+      <article class="mainContent">
+        <!-- HEADER -->
+        <div class="contentHeader">
+
+          <div class="headerLeft">
+            <h1 class="pageTitle">Tasks</h1>
+          </div>
+
+          <div class="headerRight">
+            <button
+              type="button"
+              class="actionBtn iconBtn"
+              id="personalLogTaskOpen"
+              title="Create Task"
+            >
+              <!-- Plus / Add Icon -->
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 5V19M5 12H19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span>Create task</span>
+            </button>
+
+          </div>
+        </div>
+
+        <div id="modalContainer"></div>
+        <div id="actionsMessage"></div>
+        <!--INFO DISPLAY-->
+        <div id="infoDisplay"></div>
+
+        <!-- PERSONAL TASKS SECTION -->
+        <section class="personalCreatedTasksContainer">
+          <div class="taskViewControls">
+            <div class="taskModeToggle" id="taskModeToggle">
+              <button type="button" id="modeListBtn" class="active">
+                List
+              </button>
+              <button type="button" id="modeCalendarBtn">Calendar</button>
+            </div>
+            <div class="taskViewPills hide" id="calendarViewPills">
+              <button type="button" class="viewPill" data-view="year">
+                Year
+              </button>
+              <button type="button" class="viewPill" data-view="month">
+                Month
+              </button>
+              <button type="button" class="viewPill active" data-view="week">
+                Week
+              </button>
+              <button type="button" class="viewPill" data-view="day">
+                Day
+              </button>
+              <button type="button" class="viewPill" data-view="hour">
+                Hour
+              </button>
+            </div>
+            <div class="calendarNav hide" id="calendarNav">
+              <div class="navBtns">
+                <button type="button" id="calPrevBtn">‹</button>
+                <button type="button" id="calNextBtn">›</button>
+              </div>
+              <span id="calendarRangeText">Week</span>
+            </div>
+            <div class="calendarClock hide" id="calendarClock" hidden>
+              <span class="calendarClockDot"></span>
+              <time id="calClockTime">--:--</time>
+            </div>
+          </div>
+
+          <div id="tasksSkeleton" class="tasksSkeleton" aria-hidden="true">
+            <!-- Incomplete tasks -->
+            <div class="skeletonGroup">
+              <div class="skeleton skeletonGroupTitle"></div>
+
+              <div class="skeletonTask">
+                <div class="skeleton skeletonCheckbox"></div>
+
+                <div class="skeletonTaskContent">
+                  <div class="skeleton skeletonTaskTitle"></div>
+                  <div class="skeleton skeletonTaskDate"></div>
+                </div>
+
+                <div class="skeletonTaskActions">
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                </div>
+              </div>
+
+              <div class="skeletonTask">
+                <div class="skeleton skeletonCheckbox"></div>
+
+                <div class="skeletonTaskContent">
+                  <div
+                    class="skeleton skeletonTaskTitle skeletonWidthLong"
+                  ></div>
+                  <div class="skeleton skeletonTaskDate"></div>
+                </div>
+
+                <div class="skeletonTaskActions">
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                </div>
+              </div>
+
+              <div class="skeletonTask">
+                <div class="skeleton skeletonCheckbox"></div>
+
+                <div class="skeletonTaskContent">
+                  <div
+                    class="skeleton skeletonTaskTitle skeletonWidthMedium"
+                  ></div>
+                  <div class="skeleton skeletonTaskDate"></div>
+                </div>
+
+                <div class="skeletonTaskActions">
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                </div>
+              </div>
+
+              <div class="skeletonTask">
+                <div class="skeleton skeletonCheckbox"></div>
+
+                <div class="skeletonTaskContent">
+                  <div
+                    class="skeleton skeletonTaskTitle skeletonWidthLong"
+                  ></div>
+                  <div class="skeleton skeletonTaskDate"></div>
+                </div>
+
+                <div class="skeletonTaskActions">
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                </div>
+              </div>
+
+              <div class="skeletonTask">
+                <div class="skeleton skeletonCheckbox"></div>
+
+                <div class="skeletonTaskContent">
+                  <div
+                    class="skeleton skeletonTaskTitle skeletonWidthShort"
+                  ></div>
+                  <div class="skeleton skeletonTaskDate"></div>
+                </div>
+
+                <div class="skeletonTaskActions">
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                  <div class="skeleton skeletonIcon"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recurring tasks -->
+            <div class="skeletonRecurring">
+              <div class="skeleton skeletonRecurringTitle"></div>
+            </div>
+          </div>
+
+          <!-- Actual tasks -->
+          <div id="personalCreatedTasks" hidden>
+            <div class="taskGroup" id="incompleteGroup"></div>
+            <div class="taskGroup" id="completedGroup"></div>
+          </div>
+
+          <div id="personalTasksCalendar" hidden></div>
+        </section>
+      </article>
+    </main>
+
+    <!-- JS -->
+    <script type="module" src="../js/auth/protectPage.js"></script>
+    <script type="module" src="../js/session.js" defer></script>
+    <script type="module" src="../js/app.js" defer></script>
+    <script type="module" src="../js/tasks.js" defer></script>
+    <script type="module">
+      import { initCalendarView } from "../js/components/calendarView.js";
+      window.addEventListener("DOMContentLoaded", initCalendarView);
+    </script>
+  </body>
+</html>
