@@ -6,9 +6,11 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>
-      LogHue Tasks | write, sketch, and organize without the extra app
-    </title>
+    <title>LogHue Tasks | plan, schedule, and finish without the extra app</title>
+    <meta
+      name="description"
+      content="LogHue Tasks is the tasks part of LogHue on its own. Set deadlines, repeat what repeats, get reminders, and see your week on a calendar."
+    />
 
     <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
     <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
@@ -33,7 +35,7 @@
       sizes="16x16"
       href="/assets/favicons/favicon-16x16.png"
     />
-    
+
     <style>
       a {
         color: inherit;
@@ -60,7 +62,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: var(--space-sm) ;
+        padding: var(--space-sm);
       }
       .wordmark {
         font-size: 19px;
@@ -74,7 +76,6 @@
       .wordmark:hover {
         text-decoration: none;
       }
-      
       .wordmark .divider {
         color: var(--text-faint);
         font-weight: 400;
@@ -166,7 +167,7 @@
       .btn-secondary:hover {
         border-color: var(--border-secondary);
         text-decoration: none;
-                color: var(--text-secondary);
+        color: var(--text-secondary);
       }
       .fine-print {
         margin-top: 16px;
@@ -174,22 +175,22 @@
         color: var(--text-faint);
       }
 
-      /* EDITOR MOCK */
-      .editor-mock {
+      /* TASK LIST MOCK */
+      .task-mock {
         margin-top: 64px;
         border: 1px solid var(--border);
         border-radius: 14px;
         background: var(--card-bg);
         overflow: hidden;
       }
-      .editor-mock .bar {
+      .task-mock .bar {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 14px 20px;
         border-bottom: 1px solid var(--border-primary);
       }
-      .editor-mock .bar .left {
+      .task-mock .bar .left {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -207,59 +208,87 @@
         background: var(--border);
         display: block;
       }
-      .saved-pill {
+      .count-pill {
         font-size: 12px;
-        color: #7fb27f;
-        background: rgba(127, 178, 127, 0.1);
+        color: var(--primary);
+        background: rgba(29, 135, 255, 0.139);
         padding: 3px 9px;
         border-radius: 20px;
       }
-      .export-pill {
+      .view-pill {
         font-size: 12px;
         color: var(--muted);
         border: 1px solid var(--border);
         padding: 5px 11px;
         border-radius: 7px;
       }
-      .editor-mock .body {
-        padding: 32px 36px 40px;
+      .task-mock .body {
+        padding: 28px 36px 32px;
       }
-      .editor-mock .title-line {
+      .task-mock .title-line {
         font-family: var(--serif);
         font-size: 24px;
         color: var(--text);
-        margin: 0 0 18px;
+        margin: 0 0 8px;
       }
-      .editor-mock .fake-line {
-        height: 11px;
-        border-radius: 3px;
-        background: var(--border-primary);
-        margin-bottom: 12px;
+      .group-label {
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin: 22px 0 6px;
       }
-      .editor-mock .fake-line.w1 {
-        width: 92%;
+      .group-label.overdue {
+        color: #ef4444;
       }
-      .editor-mock .fake-line.w2 {
-        width: 100%;
-      }
-      .editor-mock .fake-line.w3 {
-        width: 68%;
-      }
-      .editor-mock .fake-line.w4 {
-        width: 84%;
-      }
-      .toolbar-mock {
+      .task-row {
         display: flex;
-        gap: 6px;
-        margin-top: 20px;
-        padding-top: 18px;
-        border-top: 1px solid var(--border-primary);
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-primary);
+        font-size: 15px;
       }
-      .toolbar-mock span {
-        width: 26px;
-        height: 26px;
-        border-radius: 6px;
-        background: var(--border-primary);
+      .task-row:last-child {
+        border-bottom: none;
+      }
+      .task-row .check {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        border: 1.5px solid var(--border-secondary, var(--border));
+        flex-shrink: 0;
+      }
+      .task-row .name {
+        flex: 1;
+        color: var(--text-primary);
+      }
+      .task-row .time {
+        font-size: 13px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .task-row .repeat {
+        font-size: 12px;
+        color: var(--primary);
+        border: 1px solid var(--border-primary);
+        border-radius: 20px;
+        padding: 2px 8px;
+      }
+      .task-row.late .check {
+        border-color: #ef4444;
+      }
+      .task-row.late .time {
+        color: #ef4444;
+      }
+      .task-row.done .check {
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+      .task-row.done .name,
+      .task-row.done .time {
+        color: var(--text-faint);
+        text-decoration: line-through;
       }
 
       /* SECTIONS */
@@ -326,26 +355,23 @@
         line-height: 1.55;
       }
 
-      /* FORMATS */
-      .formats-row {
+      /* REMINDERS */
+      .chip-row {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-top: 8px;
       }
-      .format-chip {
+      .chip {
         font-size: 13px;
         padding: 8px 14px;
         border-radius: 20px;
         border: 1px solid var(--border-primary);
         color: var(--muted);
       }
-      .format-chip.locked {
-        color: var(--muted);
-      }
-      .format-chip.locked::after {
-        content: " · Pro";
-        color: var(--primary);
+      .chip.on {
+        border-color: var(--primary);
+        color: var(--text-primary);
       }
 
       .split {
@@ -354,48 +380,38 @@
         gap: 56px;
         align-items: center;
       }
+      .split .label {
+        color: var(--blue);
+        font-size: 14px;
+        margin: 0 0 12px;
+      }
+      .split h2 {
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(24px, 3vw, 30px);
+        margin: 0 0 14px;
+        line-height: 1.25;
+      }
+      .split .sub {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0 0 20px;
+      }
       .split .visual {
         border: 1px solid var(--border-primary);
         border-radius: 12px;
         background: var(--card-bg);
         padding: 28px;
       }
-      .share-link-mock {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.486);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 10px 14px;
+      .split .visual .cap {
         font-size: 13px;
         color: var(--muted);
-        margin-top: 18px;
+        margin: 0 0 4px;
       }
-      .share-link-mock .url {
-        color: var(--primary);
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .toggle-mock {
-        width: 34px;
-        height: 19px;
-        border-radius: 20px;
-        background: var(--primary);
-        position: relative;
-        flex-shrink: 0;
-      }
-      .toggle-mock::after {
-        content: "";
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #fff;
+      .split .visual .note {
+        font-size: 14px;
+        color: var(--text-faint);
+        margin: 0 0 18px;
       }
 
       ul.plain {
@@ -423,7 +439,7 @@
         font-weight: 500;
       }
 
-      /* ACCOUNT NOTE */
+      /* ACCOUNT BAND */
       .account-band {
         border-top: 1px solid var(--border-primary);
         padding: 64px 0;
@@ -491,8 +507,8 @@
         section {
           padding: 60px 0;
         }
-        .editor-mock .body {
-          padding: 24px 20px 30px;
+        .task-mock .body {
+          padding: 24px 20px 26px;
         }
         .account-band .wrap {
           flex-direction: column;
@@ -520,36 +536,53 @@
         <p class="eyebrow">Part of LogHue, on its own now</p>
         <h1>Tasks, without the rest of LogHue in the way.</h1>
         <p class="lede">
-          LogHue's main app bundles tasks with workspaces, tasks, and team
-          tools. This is just the tasks part. If workspaces and tasks aren't why
-          you're here, this is the whole app: write, sketch, or build a table,
-          and nothing else to click past.
+          LogHue's main app bundles tasks with workspaces, notes, and team
+          tools. This is just the tasks part. If workspaces and notes aren't why
+          you're here, this is the whole app: set a deadline, see your week on a
+          calendar, and nothing else to click past.
         </p>
         <div class="cta-row">
-          <a href="/tasks" class="btn btn-primary">Start writing, free</a>
+          <a href="/tasks" class="btn btn-primary">Start planning, free</a>
           <a href="auth/" class="btn btn-secondary">Sign in</a>
         </div>
         <p class="fine-print">
           Same account as app.loghue.com. Nothing new to set up.
         </p>
 
-        <div class="editor-mock">
+        <div class="task-mock">
           <div class="bar">
             <div class="left">
               <div class="dot-row"><span></span><span></span><span></span></div>
-              <span class="saved-pill">Saved</span>
+              <span class="count-pill">3 open</span>
             </div>
-            <span class="export-pill">Export as ▾</span>
+            <span class="view-pill">List ▾</span>
           </div>
           <div class="body">
-            <p class="title-line">Tasks on the Q3 pricing page</p>
-            <div class="fake-line w2"></div>
-            <div class="fake-line w1"></div>
-            <div class="fake-line w4"></div>
-            <div class="fake-line w3"></div>
-            <div class="toolbar-mock">
-              <span></span><span></span><span></span><span></span><span></span
-              ><span></span><span></span>
+            <p class="title-line">Your tasks</p>
+
+            <p class="group-label overdue">Overdue</p>
+            <div class="task-row late">
+              <span class="check"></span>
+              <span class="name">Send the invoice</span>
+              <span class="time">Yesterday, 17:00</span>
+            </div>
+
+            <p class="group-label">Today</p>
+            <div class="task-row">
+              <span class="check"></span>
+              <span class="name">Review pull requests</span>
+              <span class="time">10:00</span>
+            </div>
+            <div class="task-row">
+              <span class="check"></span>
+              <span class="name">Weekly planning</span>
+              <span class="repeat">Repeats</span>
+              <span class="time">14:30</span>
+            </div>
+            <div class="task-row done">
+              <span class="check"></span>
+              <span class="name">Book the dentist</span>
+              <span class="time">09:00</span>
             </div>
           </div>
         </div>
@@ -559,11 +592,11 @@
     <section>
       <div class="wrap">
         <div class="section-head">
-          <p class="label">Three ways to capture something</p>
-          <h2>Type it, draw it, or lay it out in a table.</h2>
+          <p class="label">Three things it does well</p>
+          <h2>Schedule it, repeat it, and see it on a calendar.</h2>
           <p>
-            Pick the note type that fits what's in your head. Switch anytime
-            without losing formatting.
+            Every task has a deadline, so your list always knows what's late,
+            what's today, and what can wait.
           </p>
         </div>
         <div class="grid-3">
@@ -576,14 +609,14 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 2" />
               </svg>
             </div>
-            <h3>Write</h3>
+            <h3>Schedule</h3>
             <p>
-              A full rich text editor with fonts, colors, highlights, and
-              checklists. Formatting saves and reloads exactly as you left it.
+              Give a task a deadline, plus an optional start and end time so the
+              hours it takes are blocked out on your calendar.
             </p>
           </div>
           <div class="card">
@@ -595,15 +628,16 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                <path d="M2 2l7.586 7.586" />
+                <path d="M17 2l4 4-4 4" />
+                <path d="M3 11V9a3 3 0 0 1 3-3h15" />
+                <path d="M7 22l-4-4 4-4" />
+                <path d="M21 13v2a3 3 0 0 1-3 3H3" />
               </svg>
             </div>
-            <h3>Sketch</h3>
+            <h3>Repeat</h3>
             <p>
-              Draw freehand on a canvas with pen and eraser tools, for the
-              moments a diagram says more than a paragraph.
+              Make a task recurring and each occurrence gets its own entry.
+              Finish today's without touching tomorrow's.
             </p>
           </div>
           <div class="card">
@@ -615,14 +649,14 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
               </svg>
             </div>
-            <h3>Table</h3>
+            <h3>Calendar</h3>
             <p>
-              Drop a table into a note or start a note as one. Good for anything
-              that's really a small spreadsheet in disguise.
+              Switch from the list to a calendar by year, month, week, day, or
+              hour. Overdue tasks turn red and finished ones fade out.
             </p>
           </div>
         </div>
@@ -633,47 +667,32 @@
       <div class="wrap">
         <div class="split">
           <div>
-            <p class="section-head" style="margin-bottom: 0"></p>
-            <p
-              class="label"
-              style="color: var(--blue); font-size: 14px; margin: 0 0 12px"
-            >
-              Get it out of LogHue
+            <p class="label">Reminders</p>
+            <h2>Hear about it before the deadline, not after.</h2>
+            <p class="sub">
+              Get an email 30 minutes and again 5 minutes before a task is due,
+              with an optional push notification on top.
             </p>
-            <h2
-              style="
-                font-family: var(--serif);
-                font-weight: 500;
-                font-size: clamp(24px, 3vw, 30px);
-                margin: 0 0 14px;
-                line-height: 1.25;
-              "
-            >
-              Export in whatever format the next step needs.
-            </h2>
-            <p style="color: var(--muted); font-size: 15px; margin: 0 0 20px">
-              TXT and MD are free on every plan. PDF, DOCX, and HTML come with
-              Pro.
-            </p>
-            <div class="formats-row">
-              <span class="format-chip">TXT</span>
-              <span class="format-chip">MD</span>
-              <span class="format-chip locked">PDF</span>
-              <span class="format-chip locked">DOCX</span>
-              <span class="format-chip locked">HTML</span>
+            <div class="chip-row">
+              <span class="chip on">Email, 30 min before</span>
+              <span class="chip on">Email, 5 min before</span>
+              <span class="chip">Push, optional</span>
             </div>
           </div>
           <div class="visual">
-            <p style="font-size: 13px; color: var(--muted); margin: 0 0 4px">
-              Share publicly
+            <p class="cap">Recurring task reminders</p>
+            <p class="note">
+              Pick the days a reminder should fire. The task itself still shows
+              up on every occurrence.
             </p>
-            <p style="font-size: 14px; color: var(--text-faint); margin: 0">
-              Turn on a link and anyone can read the note. Turn it off and it's
-              back to just you.
-            </p>
-            <div class="share-link-mock">
-              <span class="url">app.loghue.com/pages/share?id=6012e90c…</span>
-              <div class="toggle-mock"></div>
+            <div class="chip-row">
+              <span class="chip on">Mon</span>
+              <span class="chip on">Tue</span>
+              <span class="chip on">Wed</span>
+              <span class="chip on">Thu</span>
+              <span class="chip on">Fri</span>
+              <span class="chip">Sat</span>
+              <span class="chip">Sun</span>
             </div>
           </div>
         </div>
@@ -684,29 +703,30 @@
       <div class="wrap">
         <div class="section-head">
           <p class="label">Stay organized without trying hard</p>
-          <h2>Folders when you need them, a flat list when you don't.</h2>
+          <h2>Your list sorts itself by when things are due.</h2>
         </div>
         <ul class="plain">
           <li>
             <span class="mark">＋</span
             ><span
-              ><strong>Folders.</strong> Group related tasks and collapse the
-              ones you're not using. Tasks outside a folder just sit at the top
-              level, no forced structure.</span
+              ><strong>Date groups.</strong> Open tasks sit under Overdue,
+              Today, This week, and Later, so the top of the page is always what
+              needs you first.</span
             >
           </li>
           <li>
             <span class="mark">＋</span
             ><span
-              ><strong>Search.</strong> Press Ctrl K anywhere and jump straight
-              to a note by title.</span
+              ><strong>Take it to a team.</strong> Duplicate a task into a
+              workspace when it needs more people. Your personal copy stays
+              where it is.</span
             >
           </li>
           <li>
             <span class="mark">＋</span
             ><span
-              ><strong>One account, two apps.</strong> Everything written here
-              shows up in app.loghue.com too, if you ever want tasks and
+              ><strong>One account, two apps.</strong> Everything you add here
+              shows up in app.loghue.com too, if you ever want notes and
               workspaces alongside it.</span
             >
           </li>
@@ -723,9 +743,7 @@
             migration needed.
           </p>
         </div>
-        <a href="/auth/" class="btn btn-secondary"
-          >Sign in to Tasks</a
-        >
+        <a href="/auth/" class="btn btn-secondary">Sign in to Tasks</a>
       </div>
     </div>
 
