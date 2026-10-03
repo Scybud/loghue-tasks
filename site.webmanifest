@@ -1,6 +1,6 @@
 {
-  "name": "LogHue Notes",
-  "short_name": "Notes",
+  "name": "LogHue Tasks",
+  "short_name": "Tasks",
   "icons": [
     {
       "src": "/assets/favicons/android-chrome-192x192.png",
