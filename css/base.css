@@ -24,7 +24,9 @@ body {
 /*MAIN*/
 .main {
    height: 100dvh;
-   padding: var(--space-lg) var(--space-sm);
+   max-width: 1000px;
+   margin: auto;
+   padding: 0 var(--space-sm) var(--space-lg);
 }
 
 /*VARIABLES*/
