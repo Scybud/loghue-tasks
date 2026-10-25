@@ -6,12 +6,11 @@ import {
   loadAnalytics,
 } from "https://loghue.com/analytics.js";
 import { attachSignoutEvents } from "./auth/auth.js";
-import { sessionState, sessionReady, initSession } from "./session.js";
+import { sessionReady } from "./session.js";
+import { confirmAction } from "https://app.loghue.com/js/utils/modals.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   await sessionReady;
-
-  const userId = await sessionState.user?.id;
 
   // Analytics
   await loadComponent("../components/modals/cookies-banner", "infoDisplay");
@@ -30,4 +29,30 @@ window.addEventListener("DOMContentLoaded", async () => {
   openLoginModal();
 
   autoExpandTextarea();
+  openExternalLinks();
 });
+
+function openExternalLinks() {
+  const outerPageLinks = document.querySelectorAll(".outerPageLink")
+  outerPageLinks.forEach((outerLink) => {
+    outerLink.addEventListener("click", (e) => {
+      e.preventDefault();
+  e.stopPropagation();
+
+  const goTo = outerLink.href;
+
+  confirmAction(
+    "Open external link",
+    `This link will take you to another page. Continue to ${goTo}?`,
+    [
+      { label: "Cancel", type: "cancel" },
+      {
+        label: "Continue",
+        type: "confirm",
+        onClick: () => window.open(goTo, "_blank", "noopener,noreferrer"),
+      },
+    ],
+  );
+})
+})
+    }

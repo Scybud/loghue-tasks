@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tasks | LogHue</title>
 
-    <!-- CSS LINKS (reuse dashboard CSS) -->
+       <!-- CSS LINKS (reuse dashboard CSS) -->
     <!--SCYBUD UI-->
     <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
     <link rel="stylesheet" href="https://ui.scybud.com/css/layout.css" />
@@ -37,22 +37,15 @@
       href="../assets/favicons/favicon-32x32.png"
     />
 
-    <style>
-      .collapsibleHeader {
-        max-width: 100%;
-      }
-    </style>
   </head>
 
   <body>
-    
     <main class="main">
 
       <!-- MAIN CONTENT -->
       <article class="mainContent">
         <!-- HEADER -->
         <div class="contentHeader">
-
           <div class="headerLeft">
             <h1 class="pageTitle">Tasks</h1>
           </div>
@@ -85,14 +78,29 @@
               <span>Create task</span>
             </button>
 
-            <button id="logoutBtn" type="button">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M10 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"></path>
-      <path d="M14 8l5 4-5 4"></path>
-      <path d="M19 12H10"></path>
-    </svg>
-  </button>
-  
+            <a
+              href="https://app.loghue.com/pages/analytics"
+              type="button"
+              id="analyticsPageLink"
+              title="Productivity analytics"
+              class="actionBtn outerPageLink"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </a>
+
           </div>
         </div>
 
@@ -102,8 +110,10 @@
         <div id="infoDisplay"></div>
 
         <!-- PERSONAL TASKS SECTION -->
-        <section class="personalCreatedTasksContainer">
-          <div class="taskViewControls">
+<section class="personalCreatedTasksContainer">
+  <div id="tasksListView">
+  <div class="taskViewControls">
+    
             <div class="taskModeToggle" id="taskModeToggle">
               <button type="button" id="modeListBtn" class="active">
                 List
@@ -236,16 +246,22 @@
           </div>
 
           <!-- Actual tasks -->
-          <div id="personalCreatedTasks" hidden>
-            <div class="taskGroup" id="incompleteGroup"></div>
-            <div class="taskGroup" id="completedGroup"></div>
-          </div>
+            <div id="personalCreatedTasks" hidden>
+    <div class="taskGroup" id="incompleteGroup"></div>
+    <div class="taskGroup" id="completedGroup"></div>
+  </div>
 
-          <div id="personalTasksCalendar" hidden></div>
-        </section>
+  <div id="personalTasksCalendar" hidden></div>
+  </div>
+
+  <div id="taskDetailView" class="hide">
+    <button type="button" class="btn btn-sm" id="taskDetailBack">
+      Back to tasks
+    </button>
+    <div id="taskDetailContent"></div>
+  </div>
+</section>
       </article>
-
-      <a href="https://app.loghue.com">LogHue</a>
     </main>
 
     <!-- JS -->
