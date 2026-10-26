@@ -46,7 +46,7 @@ function openExternalLinks() {
 
       confirmAction(
         "Open external link?",
-        `You're about to leave LogHue Tasks and visit ${domain}. Do you want to continue?`,
+        `You're about to leave LogHue and visit ${domain}. Do you want to continue?`,
         [
           { label: "Cancel", type: "cancel" },
           {
@@ -61,16 +61,15 @@ function openExternalLinks() {
 }
 
 function makeLinksExternal() {
-  const taskCards = document.querySelectorAll(".taskCard");
 
-  taskCards.forEach((card) => {
-    const links = card.querySelectorAll("a");
+    const links = document.querySelectorAll("a");
 
     links.forEach((link) => {
 
-      if (link.href.startsWith("https://")) {
+      const hostname = new URL(link.href, window.location.href).hostname;
+
+      if (!hostname.endsWith(".loghue.com") || hostname !== "loghue.com") {
         link.classList.add("outerPageLink");
       }
     });
-  });
 }
