@@ -193,19 +193,22 @@ a .logo:hover {
 }
 
 #logoutBtn {
-  position: fixed ;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  height: fit-content;
-  bottom: auto;
+  position: static;
   background: var(--surface-primary);
-  padding: var(--space-xs);
+  height: 40px;
+  padding: 0;
   border: none;
-color: var(--text-primary);
-border-radius: var(--radius-sm);
-cursor: pointer;
-transition: color 0.5s ease;
+ color: var(--text-primary);
+ cursor: pointer;
+ transition: color 0.5s ease;
 }
 #logoutBtn:hover {
   color: var(--danger);
+}
+
+.backBtn, .backLink {
+  position: fixed !important;
+}
+.backBtn.show {
+  display: flex !important;
 }
