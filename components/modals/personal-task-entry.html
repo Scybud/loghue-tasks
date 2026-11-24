@@ -1,104 +1,129 @@
 <div class="modalContainer" id="inputContainer">
-          <form class="personalLogInputContainer form">
+  <form class="personalLogInputContainer form taskForm" novalidate>
+    <!--CLOSE BUTTON-->
+    <button type="button" class="closeModalBtn">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+      >
+        <path d="M18 6L6 18" />
+        <path d="M6 6L18 18" />
+      </svg>
+    </button>
 
-             <!--CLOSE BUTTON-->
-<svg 
-class="closeModalBtn "
-  xmlns="http://www.w3.org/2000/svg"
-  width="22"
-  height="22"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="1.7"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <rect
-    x="3.5"
-    y="3.5"
-    width="17"
-    height="17"
-    rx="6"
-    ry="6"
-    fill="currentColor"
-    opacity="0.06"
-  />
-  <path d="M9 9l6 6M15 9l-6 6" />
-</svg>
+    <div class="modalTitleRow">
+      <h2>Create Task</h2>
+    </div>
 
-            <div class="modalTitleRow">
-              <h2>Create Task</h2>
-              <button type="button" id="taskSettingsToggle" class="tooltip" data-title="Task settings">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
-                </svg>
-              </button>
+    <input
+      placeholder="What needs doing?"
+      type="text"
+      id="task"
+      class="inputField"
+      aria-label="Task title"
+      autocomplete="off"
+    />
+
+    <!-- Values read by attachCreatePersonalTaskEvent, written by taskForm.ts -->
+    <input type="hidden" id="taskTime" />
+    <input type="hidden" id="taskStartTime" />
+    <input type="hidden" id="taskEndTime" />
+    <input type="checkbox" id="isRecurring" hidden />
+
+    <!-- DUE -->
+    <div class="taskFormSection">
+      <span class="taskFormLabel" id="taskDueLabel">Due</span>
+      <div class="taskFormRow" role="group" aria-labelledby="taskDueLabel">
+        <span class="taskChipGroup" id="taskDueChips">
+          <button type="button" class="taskChip iconCal" data-due="today" aria-pressed="false">Today</button>
+          <button type="button" class="taskChip iconCal" data-due="tomorrow" aria-pressed="false">Tomorrow</button>
+          <span class="taskDatePick">
+            <button type="button" class="taskChip iconCal" data-due="date" aria-pressed="false">
+              <span id="taskDueDateText">Pick a date</span>
+            </button>
+            <input type="date" id="taskDueDate" tabindex="-1" aria-hidden="true" />
+          </span>
+        </span>
+        <span class="taskTimeField" id="taskDueTimeField" hidden>
+          <label for="taskDueTime" id="taskDueTimeLabel">at</label>
+          <input type="time" id="taskDueTime" class="inputField taskTimeInput" />
+        </span>
+      </div>
+      <p class="taskFormHint" id="taskDueHint">No date puts it in Later.</p>
+    </div>
+
+    <!-- ADD -->
+    <div class="taskFormSection">
+      <span class="taskFormLabel" id="taskAddLabel">Add</span>
+      <div class="taskFormRow" role="group" aria-labelledby="taskAddLabel">
+        <button type="button" class="taskChip taskChipAdd iconPlus" data-feature="block" aria-pressed="false" aria-controls="taskFold-block">Time block</button>
+        <button type="button" class="taskChip taskChipAdd iconPlus" data-feature="repeat" aria-pressed="false" aria-controls="taskFold-repeat">Repeat</button>
+        <button type="button" class="taskChip taskChipAdd iconPlus" data-feature="note" aria-expanded="false" aria-controls="taskFold-note">Note</button>
+      </div>
+
+      <div class="taskFold" id="taskFold-block" inert>
+        <div>
+          <div class="taskPanel">
+            <div class="taskFormRow" id="taskBlockDayRow">
+              <label for="taskBlockDate">Day</label>
+              <input type="date" id="taskBlockDate" class="inputField taskDateInput" />
             </div>
+            <div class="taskFormRow">
+              <label for="taskStartClock">Start</label>
+              <input type="time" id="taskStartClock" class="inputField taskTimeInput" />
+              <label for="taskEndClock">End</label>
+              <input type="time" id="taskEndClock" class="inputField taskTimeInput" />
+              <span class="taskFormMuted" id="taskBlockDuration"></span>
+            </div>
+            <p class="taskFormHint" id="taskBlockHint"></p>
+          </div>
+        </div>
+      </div>
 
-            <label for="task">Task
-              <span style="color: var(--danger);">*</span>
-              <input
-              placeholder="e.g. Fixed API bug"
-              type="text"
-              id="task"
-              class="inputField"
-              />
-            </label>
-
-            <label for="taskTime">Due Date
-<span style="color: var(--danger);">*</span>
-
-              <input type="datetime-local" id="taskTime" class="inputField" />
-            </label>
-
-            <label for="isRecurring">
-              <input type="radio" name="taskType" id="isRecurring">
-
-              Recurring task
-            </label>
-
-            <label for="isOneOff">
-              <input type="radio" name="taskType" id="isOneOff" checked>
-
-              Oneoff task
-            </label>
-
-            <!-- Task settings panel, hidden until the gear icon is clicked -->
-            <div id="taskSettingsPanel" class="taskSettingsPanel" hidden>
-              <label for="taskStartTime">Start time
-                <input type="datetime-local" id="taskStartTime" class="inputField" />
-              </label>
-
-              <label for="taskEndTime">End time
-                <input type="datetime-local" id="taskEndTime" class="inputField" />
-              </label>
-
-              <!-- Only meaningful for recurring tasks; hidden for oneoff -->
-              <div id="reminderDaysGroup" class="reminderDaysGroup" hidden>
-                <span class="reminderDaysLabel">Remind on</span>
-                <div class="reminderDaysChecks">
-                  <label><input type="checkbox" class="reminderDayCheck" value="0" checked>Sun</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="1" checked>Mon</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="2" checked>Tue</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="3" checked>Wed</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="4" checked>Thu</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="5" checked>Fri</label>
-                  <label><input type="checkbox" class="reminderDayCheck" value="6" checked>Sat</label>
-                </div>
+      <div class="taskFold" id="taskFold-repeat" inert>
+        <div>
+          <div class="taskPanel">
+            <div class="taskFormSection">
+              <span class="taskFormLabel">Repeats</span>
+              <div class="taskFormRow"><span class="taskChip is-on">Daily</span></div>
+            </div>
+            <div class="taskFormSection">
+              <span class="taskFormLabel">Remind on</span>
+              <div class="taskFormRow">
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="0" aria-label="Sunday" checked /><span aria-hidden="true">S</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="1" aria-label="Monday" checked /><span aria-hidden="true">M</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="2" aria-label="Tuesday" checked /><span aria-hidden="true">T</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="3" aria-label="Wednesday" checked /><span aria-hidden="true">W</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="4" aria-label="Thursday" checked /><span aria-hidden="true">T</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="5" aria-label="Friday" checked /><span aria-hidden="true">F</span></label>
+                <label class="taskDay"><input type="checkbox" class="reminderDayCheck" value="6" aria-label="Saturday" checked /><span aria-hidden="true">S</span></label>
               </div>
             </div>
-
-            <label for="note">Note (Optional)
-
-              <textarea
-              id="note"
-              placeholder="Add details about what you finished…"
-              class="inputField textArea"
-              ></textarea>
-            </label>
-
-            <button type="button" id="logTask" class="btn">Log Task</button>
-          </form>
+            <p class="taskFormHint" id="taskRepeatHint"></p>
+          </div>
         </div>
+      </div>
+
+      <div class="taskFold" id="taskFold-note" inert>
+        <div>
+          <div class="taskPanel">
+            <label class="taskFormLabel" for="note">Note</label>
+            <textarea
+              id="note"
+              placeholder="Details (optional)"
+              class="inputField textArea"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="logTask" class="btn">Create Task</button>
+  </form>
+</div>
